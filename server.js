@@ -96,7 +96,7 @@ app.post('/choose', function (req, res) {
         responseXML += '<Say>Thank you for taking the quiz. The question is ';
         _curQuestion = Math.floor(Math.random() * _questions.length);
         responseXML += _questions[_curQuestion].content;
-        responseXML += 'Here are the choices: <Gather numDigits="1" action="/answer" method="POST">';
+        responseXML += ' Here are the choices: <Gather numDigits="1" action="/answer" method="POST">';
         for (var i = 1; i <= _questions[_curQuestion].choices.length; ++i) {
             responseXML += ("Please press " + i + " if you think the answer is " + _questions[_curQuestion].choices[i - 1]) + ". ";
         }
@@ -114,12 +114,12 @@ app.post('/answer', function (req, res) {
 
     var responseXML = '<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response>';
     if (digits == _questions[_curQuestion].answer) {
-        responseXML += '<Say>You got correct! Do you want to try another question?';
-        responseXML += '<Gather numDigits="1" action="/retry" method="POST"> Please press 1 for yes ' +
+        responseXML += '<Say>You got correct! Do you want to try another question? ';
+        responseXML += '<Gather numDigits="1" action="/retry" method="POST">Please press 1 for yes ' +
             'and any other button for no</Gather></Say>'
     } else {
-        responseXML += "<Say>It seems that the answer is incorrect. Do you want to start over?"
-        responseXML += '<Gather numDigits="1" action="/retry" method="POST"> Please press 1 for yes ' +
+        responseXML += "<Say>It seems that the answer is incorrect. Do you want to start over? "
+        responseXML += '<Gather numDigits="1" action="/retry" method="POST">Please press 1 for yes ' +
             'and any other button for no</Gather></Say>'
     }
     res.send(responseXML + '</Response>');
