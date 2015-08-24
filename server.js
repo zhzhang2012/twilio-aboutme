@@ -4,6 +4,7 @@ var express = require('express'),
     path = require('path'),
     xml2js = require('xml2js'),
     parseXML = xml2js.parseString,
+    request = require('request'),
     bodyParser = require('body-parser'),
     AV = require('leanengine');
 
@@ -25,7 +26,7 @@ var _questions = [
             "Harvey Mudd College",
             "Caltech"
         ],
-        answer: '0'
+        answer: '1'
     },
     {
         content: "What's my favorite club in England Primer League?",
@@ -34,7 +35,7 @@ var _questions = [
             "Arsenal",
             "Manchester City"
         ],
-        answer: '1'
+        answer: '2'
     },
     {
         content: "What's my least favorite class?",
@@ -43,7 +44,7 @@ var _questions = [
             "Computer Science",
             "Physics"
         ],
-        answer: '2'
+        answer: '3'
     },
     {
         content: "What's my favorite sport?",
@@ -52,16 +53,16 @@ var _questions = [
             "Basketball",
             "Tennis"
         ],
-        answer: 0
+        answer: '1'
     },
     {
-        content: "What's my favorite club in England Primer League?",
+        content: "What's my favorite club in Chinese Primer League?",
         choices: [
             "Beijing Guoan",
             "Guangzhou Monkey",
             "Shandong Donkey"
         ],
-        answer: 1
+        answer: '1'
     }
 ];
 var _curQuestion = 0;
@@ -87,6 +88,7 @@ app.post('/welcome', function (req, res) {
 
 app.post('/choose', function (req, res) {
     var digits = req.body.Digits;
+    console.log(req.body.Digits);
 
     res.set('Content-Type', 'text/xml');
     var responseXML = '<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response>';
@@ -95,8 +97,8 @@ app.post('/choose', function (req, res) {
         _curQuestion = Math.floor(Math.random() * _questions.length);
         responseXML += _questions[_curQuestion].content;
         responseXML += 'Here are the choices: <Gather numDigits="1" action="/answer" method="POST">';
-        for (var i = 1; i <= _questions[index].choices.length; ++i) {
-            responseXML += ("Please press " + i + " if you think the answer is " + _questions[_curQuestion].choices[i - 1]);
+        for (var i = 1; i <= _questions[_curQuestion].choices.length; ++i) {
+            responseXML += ("Please press " + i + " if you think the answer is " + _questions[_curQuestion].choices[i - 1]) + ". ";
         }
         responseXML += "</Gather></Say>";
 
@@ -128,7 +130,14 @@ app.post('/retry', function (req, res) {
 
     var responseXML = '<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response>';
     if (digits == '1') {
-        res.redirect('/choose');
+        responseXML += '<Say>Thank you for taking the quiz. The question is ';
+        _curQuestion = Math.floor(Math.random() * _questions.length);
+        responseXML += _questions[_curQuestion].content;
+        responseXML += 'Here are the choices: <Gather numDigits="1" action="/answer" method="POST">';
+        for (var i = 1; i <= _questions[_curQuestion].choices.length; ++i) {
+            responseXML += ("Please press " + i + " if you think the answer is " + _questions[_curQuestion].choices[i - 1]) + ". ";
+        }
+        responseXML += "</Gather></Say>";
     } else {
         responseXML += '<Say>Goodbye.</Say>';
     }
