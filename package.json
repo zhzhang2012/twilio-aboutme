@@ -1,0 +1,19 @@
+{
+  "name": "twilio-aboutme",
+  "version": "1.0.0",
+  "description": "A simple quiz project using twilio library",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tony Zhang",
+  "license": "MIT",
+  "devDependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "leanengine": "^0.1.5",
+    "path": "^0.11.14",
+    "xml": "^1.0.0",
+    "xml2js": "^0.4.10"
+  }
+}
