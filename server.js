@@ -148,7 +148,7 @@ app.post('/record', function (req, res) {
     res.set('Content-Type', 'text/xml');
     var responseXML = '<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response>';
 
-    newRecord.set('url', req.body.requestUrl);
+    newRecord.set('url', req.body.RecordingUrl);
     newRecord.save(null, {
         success: function () {
             responseXML += "<Say>Thanks for telling me what you feel about me! Goodbye.</Say></Response>";
